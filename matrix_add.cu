@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define N 20
+#define N 800
 
 void add(int *X, int *Y, int *Z)
 {
@@ -35,26 +35,39 @@ int main()
 	cudaMalloc((void**) &d_X, (N*N)*sizeof(int));
 	cudaMalloc((void**) &d_Y, (N*N)*sizeof(int));
 	cudaMalloc((void**) &d_Z, (N*N)*sizeof(int));
+	
+	//timer
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
 
 	cudaMemcpy(d_X, &X, (N*N)*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_Y, &Y, (N*N)*sizeof(int), cudaMemcpyHostToDevice);
-	dim3 dimGrid(1,1,1);
-	dim3 dimBlock(20,20,1);
-	add_kernel<<<dimGrid, dimBlock>>>(d_X, d_Y, d_Z);	
+	dim3 dimGrid(32,1,1);
+	dim3 dimBlock(32,1,1);
+	
+	cudaEventRecord(start);
+	add_kernel<<<dimGrid, dimBlock>>>(d_X, d_Y, d_Z);
+	cudaEventRecord(stop);	
     //add(X, Y, Z);
 
 	cudaMemcpy(&Z, d_Z, (N*N)*sizeof(int), cudaMemcpyDeviceToHost);
+
+	cudaEventSynchronize(stop);
+	float ms = 0;
+	cudaEventElapsedTime(&ms, start, stop);
+
 	cudaFree(d_X);
 	cudaFree(d_Y);
 	cudaFree(d_Z);
 	
+	int sum = 0;	
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++) {
-			printf("%d ", Z[i*N+j]);
+			sum += Z[i*N+j];
 		}
-	    printf("\n");
 	}
-
+	
+	printf("Time used: %f milliseconds\n", ms);
     return -1;
 }
-

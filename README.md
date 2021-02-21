@@ -11,6 +11,11 @@
 ### Multiple Faster threads
 ![MultipleFasterThreads](1D_StencilResult/faster.png)
 
+## Running time of Matrix Addition
+
+### When N is 800
+![MatrixAdd](MatrixAddResult/matrix.png)
+
 ## Running time of Reduce
 
 ### Interleave addressing by using per-block shared memory
