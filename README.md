@@ -10,3 +10,11 @@
 
 ### Multiple Faster threads
 ![MultipleFasterThreads](1D_StencilResult/faster.png)
+
+## Running time of Reduce
+
+### Interleave addressing by using per-block shared memory
+![Interleaved](ReduceResult/interleaved.png)
+
+### Contiguous addressing by using per-block shared memory
+![Contiguous](ReduceResult/contiguous.png)
