@@ -23,3 +23,11 @@
 
 ### Contiguous addressing by using per-block shared memory
 ![Contiguous](ReduceResult/contiguous.png)
+
+## Running time of Scan
+
+### Inclusive scan
+![Inclusive scan](ScanResult/inclusive_scan.PNG)
+
+### Exclusive scan
+![Exclusive scan](ScanResult/exclusive_scan.PNG)
